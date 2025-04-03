@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr"> <!-- Attribut data-theme sera ajouté par JS -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur Produit en Croix (Avancé)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="ad-section header-ad" role="banner">Zone Publicitaire Haut</header>
+
+    <main class="content" role="main">
+        <!-- Zone regroupant Retour et Langue -->
+         <div class="top-nav-area">
+             <div class="navigation-area">
+                 <a href="index.html" class="button back-button" id="back-to-home">← Retour à l'accueil</a>
+             </div>
+             <div class="language-switcher">
+                 <button id="lang-fr" class="active" aria-pressed="true">Français</button>
+                 <button id="lang-en" aria-pressed="false">English</button>
+             </div>
+         </div>
+
+        <h1 id="page-title">Calculateur (A × B) / C = D</h1>
+
+        <div class="calculator-container">
+            <p class="intro-text" id="intro-text">
+                Remplissez exactement trois des quatre champs ci-dessous. Le champ laissé vide sera calculé automatiquement lorsque vous cliquerez sur "Calculer", basé sur la formule (A × B) / C = D.
+            </p>
+
+            <!-- Equation Input Section -->
+            <div class="calculator-equation" role="group" aria-labelledby="equation-label">
+                <span id="equation-label" class="visually-hidden">Entrez trois valeurs</span> <!-- Pour lecteur d'écran -->
+
+                <div class="input-item">
+                    <label for="inputA">A</label>
+                    <input type="number" id="inputA" placeholder="Valeur A" step="any" aria-label="Valeur A">
+                </div>
+                <div class="input-item">
+                    <label for="inputB">B</label>
+                    <input type="number" id="inputB" placeholder="Valeur B" step="any" aria-label="Valeur B">
+                </div>
+                <div class="input-item">
+                     <label for="inputC">C</label>
+                    <input type="number" id="inputC" placeholder="Valeur C" step="any" aria-label="Valeur C">
+                </div>
+                 <div class="input-item">
+                     <label for="inputD">D</label>
+                    <input type="number" id="inputD" placeholder="Valeur D" step="any" aria-label="Valeur D">
+                </div>
+            </div>
+
+             <!-- Utility Buttons -->
+             <div class="utility-buttons">
+                 <button id="calculateButton" class="utility-button calculate-button">Calculer</button>
+                 <button id="resetButtonCalculator" class="utility-button reset-button">Effacer</button>
+             </div>
+
+            <!-- Result Display Box (Optionnel, peut être supprimé si résultat dans l'input suffit) -->
+            <!-- <div class="calculator-result-box" aria-live="polite">
+                 <span class="result-label" id="result-label">Résultat Calculé :</span>
+                 <span class="result-value" id="resultOutput">--</span>
+                 <button class="copy-button" id="copyButtonCalculator" data-clipboard-target="#resultOutput" aria-label="Copier le résultat calculé">Copier</button>
+            </div> -->
+
+             <!-- Error Message Area -->
+             <div id="error-message-calculator" class="error-message" role="alert"></div>
+
+        </div> <!-- Fin calculator-container -->
+    </main>
+
+    <footer class="ad-section footer-ad" role="contentinfo">Zone Publicitaire Bas</footer>
+
+    <!-- Theme Switch -->
+    <div class="theme-switch-wrapper">
+        <label for="themeSwitch">Mode Sombre</label>
+        <label class="theme-switch" for="themeSwitch">
+            <input type="checkbox" id="themeSwitch" aria-label="Basculer le thème sombre/clair">
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="theme-switch-wrapper">
+        <label for="themeSwitch" id="theme-label">Mode Sombre</label>
+        <label class="theme-switch" for="themeSwitch">
+            <input type="checkbox" id="themeSwitch" aria-labelledby="theme-label">
+            <span class="slider"></span>
+        </label>
+    </div>
+    <script src="theme_toggle.js"></script>
+    <script src="calculator_script.js"></script>
+    <!-- Ajout classe visually-hidden pour ARIA -->
+    <style>.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }</style>
+</body>
+</html>

@@ -1,0 +1,392 @@
+/* style.css */
+
+/* --- Variables CSS (Thème) --- */
+:root {
+    --bg-color: #f4f7f6;
+    --content-bg-color: #ffffff;
+    --text-color: #333333;
+    --text-muted-color: #555555;
+    --accent-color: #007bff;
+    --accent-color-darker: #0056b3;
+    --border-color: #e0e0e0;
+    --border-color-light: #f1f1f1;
+    --header-footer-bg: #e9ecef;
+    --header-footer-text: #6c757d;
+    --button-bg: #007bff;
+    --button-text: #ffffff;
+    --button-hover-bg: #0056b3;
+    --button-secondary-bg: #6c757d;
+    --button-secondary-hover-bg: #5a6268;
+    --button-reset-bg: #dc3545;
+    --button-reset-hover-bg: #c82333;
+    --button-copy-bg: #17a2b8;
+    --button-copy-hover-bg: #138496;
+    --button-copy-success-bg: #28a745;
+    --input-bg: #ffffff;
+    --input-border: #ced4da;
+    --input-focus-border: #80bdff;
+    --input-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+    --result-bg: #e9f5ff;
+    --result-border: #bde0ff;
+    --result-value-color: #0056b3;
+    --error-bg: #f8d7da;
+    --error-text: #721c24;
+    --error-border: #f5c6cb;
+    --link-color: #007bff;
+    --focus-outline-color: #007bff; /* Couleur pour l'outline de focus */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a; /* Noir doux */
+    --content-bg-color: #2d2d2d; /* Gris très foncé */
+    --text-color: #e0e0e0; /* Texte clair */
+    --text-muted-color: #aaaaaa; /* Texte grisé */
+    --accent-color: #4dabf7; /* Bleu plus clair pour le contraste */
+    --accent-color-darker: #1e90ff; /* Bleu un peu plus foncé */
+    --border-color: #444444; /* Bordures sombres */
+    --border-color-light: #333333;
+    --header-footer-bg: #212529; /* Gris/Noir pour header/footer */
+    --header-footer-text: #adb5bd; /* Texte plus clair */
+    --button-bg: #4dabf7;
+    --button-text: #1a1a1a; /* Texte foncé sur bouton clair */
+    --button-hover-bg: #1e90ff;
+    --button-secondary-bg: #5a6268;
+    --button-secondary-hover-bg: #6c757d;
+    --button-reset-bg: #e65b69; /* Rouge plus doux */
+    --button-reset-hover-bg: #dc3545;
+    --button-copy-bg: #36c2d9; /* Cyan plus clair */
+    --button-copy-hover-bg: #17a2b8;
+    --button-copy-success-bg: #5cb85c; /* Vert plus doux */
+    --input-bg: #3a3a3a;
+    --input-border: #555555;
+    --input-focus-border: #4dabf7;
+    --input-shadow: inset 0 1px 2px rgba(255,255,255,0.05);
+    --result-bg: #2a4a69; /* Bleu foncé */
+    --result-border: #1e63a7;
+    --result-value-color: #a5d8ff; /* Texte résultat clair */
+    --error-bg: #5c2b30;
+    --error-text: #f8d7da;
+    --error-border: #8b3d44;
+    --link-color: #4dabf7;
+    --focus-outline-color: #4dabf7;
+    --shadow-color: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Styles de Base --- */
+html {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- Accessibilité: Focus Visible --- */
+/* Style de focus amélioré pour la navigation clavier */
+:focus-visible {
+    outline: 3px solid var(--focus-outline-color);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--bg-color), 0 0 0 6px var(--focus-outline-color);
+    border-radius: 2px; /* Optionnel: léger arrondi sur l'ombre */
+}
+/* Supprimer l'outline par défaut si :focus-visible est supporté */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+/* Cas spécifique pour les inputs pour ne pas doubler les bordures */
+input:focus-visible {
+   box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--focus-outline-color);
+   border-color: var(--focus-outline-color); /* Utiliser la couleur pour la bordure aussi */
+}
+
+
+/* --- Header / Footer Publicitaire --- */
+header.ad-section, footer.ad-section {
+    background-color: var(--header-footer-bg);
+    padding: 15px 20px; /* Réduit un peu */
+    text-align: center;
+    color: var(--header-footer-text);
+    font-style: italic;
+    min-height: 50px;
+    border: none; /* Supprime la bordure pointillée */
+    border-bottom: 1px solid var(--border-color);
+    box-sizing: border-box;
+    flex-shrink: 0; /* Empêche de rétrécir */
+    font-size: 0.9em;
+}
+footer.ad-section { border-top: 1px solid var(--border-color); border-bottom: none; margin-top: auto; }
+
+/* --- Contenu Principal --- */
+main.content {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 700px; /* Légèrement plus large */
+    width: 95%; /* Utilise la largeur dispo */
+    margin: 30px auto; /* Plus d'espace */
+    background-color: var(--content-bg-color);
+    box-shadow: 0 2px 15px var(--shadow-color);
+    border-radius: 8px; /* Coins plus arrondis */
+    border: 1px solid var(--border-color);
+}
+
+h1 {
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    font-size: 1.8em; /* Ajustement taille */
+}
+h2 { /* Style pour le titre des détails */
+    margin-top: 30px;
+    font-size: 1.2em;
+    color: var(--text-muted-color);
+    border-bottom: 1px solid var(--border-color-light);
+    padding-bottom: 8px;
+    font-weight: 600;
+}
+
+/* --- Éléments Communs (Labels, Inputs, Boutons) --- */
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600; /* Un peu plus gras */
+    color: var(--text-muted-color);
+    font-size: 0.95em;
+}
+
+input[type="number"], input[type="text"] /* Ajout text pour calculateur */ {
+    display: block; /* Assure qu'il prend la largeur */
+    width: 100%; /* Prend toute la largeur du conteneur parent */
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border-radius: 4px;
+    font-size: 1em;
+    box-shadow: var(--input-shadow);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="number"]:focus, input[type="text"]:focus {
+    border-color: var(--input-focus-border);
+    /* L'outline est géré par :focus-visible */
+}
+/* Cacher spinners */
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { appearance: none; margin: 0; }
+input[type=number] { appearance: textfield; }
+
+button, a.button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-decoration: none; /* Pour les liens stylés en boutons */
+    display: inline-block; /* Pour padding/margin */
+    text-align: center;
+}
+button:active, a.button:active { transform: scale(0.98); }
+
+/* --- Composants Spécifiques --- */
+/* Sélecteur Langue & Bouton Retour */
+.top-nav-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap; /* Pour mobile */
+    gap: 15px;
+}
+.navigation-area { margin-bottom: 0; } /* Reset margin si dans top-nav */
+.language-switcher { margin-bottom: 0; text-align: right; }
+
+a.button.back-button {
+    padding: 8px 15px;
+    background-color: var(--button-secondary-bg);
+    color: var(--button-text);
+    font-size: 0.9em;
+}
+a.button.back-button:hover { background-color: var(--button-secondary-hover-bg); }
+
+.language-switcher button {
+    padding: 6px 12px;
+    margin-left: 5px;
+    border: 1px solid var(--border-color);
+    background-color: transparent; /* Fond transparent */
+    color: var(--text-muted-color);
+    border-radius: 4px;
+}
+.language-switcher button:hover { background-color: rgba(128, 128, 128, 0.1); }
+.language-switcher button.active {
+    background-color: var(--accent-color);
+    color: var(--button-text);
+    border-color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Boutons Utilitaires (Reset/Calculate) */
+.utility-buttons {
+    margin-top: 25px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+button.utility-button { /* Style principal pour Reset/Calculate */
+    background-color: var(--button-secondary-bg);
+    color: var(--button-text);
+}
+button.utility-button:hover { background-color: var(--button-secondary-hover-bg); }
+button.reset-button { background-color: var(--button-reset-bg); }
+button.reset-button:hover { background-color: var(--button-reset-hover-bg); }
+button.calculate-button { /* Style spécifique si besoin (ex: couleur primaire) */
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+button.calculate-button:hover { background-color: var(--button-hover-bg); }
+
+
+/* Bouton Copier */
+button.copy-button {
+    background-color: var(--button-copy-bg);
+    color: var(--button-text);
+    padding: 4px 10px;
+    font-size: 0.8em;
+    margin-left: 10px;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+button.copy-button:hover { background-color: var(--button-copy-hover-bg); }
+button.copy-button.copied { background-color: var(--button-copy-success-bg); }
+button.copy-button:disabled { background-color: var(--button-secondary-bg); cursor: not-allowed; opacity: 0.7; }
+
+/* --- Convertisseur Spécifique --- */
+.converter-container .input-group { margin-bottom: 20px; }
+.converter-container .optional-input-note { font-size: 0.85em; color: var(--text-muted-color); display: block; margin-top: -10px; margin-bottom: 15px; }
+.converter-container .result-final { margin-top: 25px; padding: 20px; background-color: var(--result-bg); border-radius: 8px; text-align: center; border: 1px solid var(--result-border); }
+.converter-container .result-final .label { display: block; font-weight: 600; color: var(--text-color); margin-bottom: 8px; font-size: 1.1em; }
+.converter-container .result-final .value { font-size: 2em; font-weight: 700; color: var(--result-value-color); display: inline-flex; align-items: center; }
+.converter-container .result-final .unit { font-size: 0.6em; margin-left: 5px; color: var(--text-muted-color); }
+
+.results-grid { display: grid; grid-template-columns: auto 1fr; gap: 10px 15px; margin-top: 20px; padding: 15px 20px; background-color: transparent; border: 1px solid var(--border-color-light); border-radius: 8px; align-items: center; }
+.results-grid dt { font-weight: 600; color: var(--text-muted-color); text-align: right; font-size: 0.9em; white-space: nowrap; padding-right: 10px; }
+.results-grid dd { margin-left: 0; font-weight: 700; color: var(--text-color); display: flex; align-items: center; flex-wrap: wrap; font-size: 1em; }
+.results-grid .unit { font-size: 0.85em; margin-left: 4px; color: var(--text-muted-color); font-weight: normal; }
+
+/* --- Calculateur Spécifique --- */
+.calculator-container .intro-text { color: var(--text-muted-color); margin-bottom: 30px; text-align: center; font-size: 1em; }
+/* Nouvelle structure pour inputs Calculateur */
+.calculator-equation {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Responsive grid */
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: var(--content-bg-color); /* Peut être différent si besoin */
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+}
+.calculator-equation .input-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Pour placeholder flottant ou autre */
+}
+.calculator-equation label {
+    font-size: 1.2em; /* Gros A, B, C, D */
+    font-weight: bold;
+    color: var(--text-muted-color);
+    margin-bottom: 5px;
+}
+.calculator-equation input[type="number"] {
+    width: 100%; /* Prend la largeur de la colonne grid */
+    padding: 12px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+.calculator-equation .input-item.calculated input {
+    background-color: var(--result-bg); /* Met en évidence le champ calculé */
+    border-color: var(--result-border);
+    color: var(--result-value-color);
+    font-weight: bold;
+}
+
+/* Boîte Résultat Calculateur (peut être simplifiée ou gardée) */
+.calculator-result-box { background-color: var(--result-bg); padding: 15px 20px; border-radius: 8px; text-align: center; border: 1px solid var(--result-border); margin-top: 20px; position: relative; }
+.calculator-result-box .result-label { display: block; font-weight: 600; color: var(--text-color); margin-bottom: 8px; font-size: 1em; }
+.calculator-result-box .result-value { font-size: 1.8em; font-weight: 700; color: var(--result-value-color); }
+.calculator-result-box .copy-button { position: absolute; top: 50%; right: 15px; transform: translateY(-50%); }
+
+/* Messages d'Erreur */
+.error-message { /* Classe commune */
+    margin-top: 15px; padding: 10px 15px; color: var(--error-text); background-color: var(--error-bg); border: 1px solid var(--error-border); border-radius: 4px; display: none; text-align: center; font-size: 0.9em;
+}
+
+/* --- Thème Toggle --- */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed; /* Ou placez-le dans header/footer */
+    bottom: 15px;
+    right: 15px;
+    background-color: var(--content-bg-color);
+    padding: 8px 12px;
+    border-radius: 20px;
+    box-shadow: 0 1px 5px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    z-index: 1000;
+}
+.theme-switch-wrapper label { margin-bottom: 0; font-size: 0.8em; color: var(--text-muted-color); }
+.theme-switch { display: inline-block; height: 24px; position: relative; width: 44px; }
+.theme-switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--accent-color); }
+input:focus-visible + .slider { /* Style focus spécifique pour le slider */
+    box-shadow: 0 0 1px var(--accent-color), 0 0 0 2px var(--bg-color), 0 0 0 4px var(--accent-color);
+}
+input:checked + .slider:before { transform: translateX(20px); }
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    main.content { padding: 15px; margin: 20px auto; width: 90%; }
+    h1 { font-size: 1.6em; }
+    .top-nav-area { flex-direction: column; align-items: flex-start; } /* Stack retour et langue */
+    .language-switcher { align-self: flex-end; } /* Met langue à droite */
+    .results-grid { grid-template-columns: 1fr; gap: 5px 0; text-align: left; padding: 10px; } /* Stack la grille */
+    .results-grid dt { text-align: left; padding-right: 0; font-size: 0.85em; color: var(--text-muted-color); font-weight: normal; }
+    .results-grid dd { justify-content: space-between; /* Pousse copier à droite */ padding-left: 10px; border-bottom: 1px solid var(--border-color-light); padding-bottom: 5px; font-size: 1em; }
+    .results-grid dd:last-child { border-bottom: none; }
+    .calculator-equation { grid-template-columns: 1fr 1fr; } /* 2 colonnes sur mobile */
+}
+
+@media (max-width: 480px) {
+    body { font-size: 15px; /* Ajuste taille base */ }
+    main.content { width: 95%; margin: 15px auto; border-radius: 4px; }
+    h1 { font-size: 1.4em; margin-bottom: 20px; }
+    .calculator-equation { grid-template-columns: 1fr; } /* 1 colonne sur très petit écran */
+    .top-nav-area { gap: 10px; }
+    button, a.button { padding: 8px 15px; font-size: 0.9em; }
+    .theme-switch-wrapper { padding: 5px 8px; bottom: 10px; right: 10px; }
+    .theme-switch-wrapper label { display: none; } /* Cache le label sur petit écran */
+}

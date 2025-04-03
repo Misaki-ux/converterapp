@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr"> <!-- Attribut data-theme sera ajouté par JS -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur Taille Écran Avancé</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="ad-section header-ad" role="banner">Zone Publicitaire Haut</header>
+
+    <main class="content" role="main">
+         <!-- Zone regroupant Retour et Langue -->
+         <div class="top-nav-area">
+             <div class="navigation-area">
+                 <a href="index.html" class="button back-button" id="back-to-home">← Retour à l'accueil</a>
+             </div>
+             <div class="language-switcher">
+                 <button id="lang-fr" class="active" aria-pressed="true">Français</button>
+                 <button id="lang-en" aria-pressed="false">English</button>
+             </div>
+         </div>
+
+        <h1 id="page-title">Convertisseur Taille Écran</h1>
+
+        <div class="converter-container">
+            <!-- Inputs -->
+            <div class="input-group">
+                <label for="cmInputL" id="label-l">Largeur (L) en centimètres (cm):</label>
+                <input type="number" id="cmInputL" placeholder="Entrez la largeur en cm" min="0" step="any" aria-required="true">
+            </div>
+            <div class="input-group">
+                <label for="cmInputH" id="label-h">Hauteur (H) en centimètres (cm):</label>
+                <input type="number" id="cmInputH" placeholder="Entrez la hauteur en cm" min="0" step="any" aria-required="true">
+            </div>
+             <div class="input-group">
+                <label for="cmInputDiag" id="label-diag-measured">Diagonale Mesurée (Optionnel) en cm:</label>
+                <input type="number" id="cmInputDiag" placeholder="Si connue, pour + de précision" min="0" step="any" aria-describedby="optional-note">
+                 <span id="optional-note" class="optional-input-note" role="note">Utilisé pour le calcul final en pouces si fourni.</span>
+            </div>
+
+             <div class="utility-buttons">
+                 <button id="resetButtonConverter" class="utility-button reset-button">Effacer</button>
+             </div>
+
+             <!-- Final Result - aria-live pour annoncer les changements -->
+             <div class="result-final" aria-live="polite">
+                 <span class="label" id="label-final-size">Taille d'écran estimée :</span>
+                 <span class="value">
+                     <span id="outputFinalInches">--</span><span class="unit">pouces</span>
+                     <button class="copy-button" data-clipboard-target="#outputFinalInches" id="copyFinalInches" aria-label="Copier la taille d'écran estimée">Copier</button>
+                 </span>
+             </div>
+
+            <h2 id="details-title">Détails du Calcul :</h2>
+            <!-- Grille de Résultats - aria-live peut être trop verbeux ici, dépend du test -->
+            <div class="results-grid" role="region" aria-labelledby="details-title">
+                 <dt id="label-res-l">Largeur Convertie:</dt>
+                 <dd>
+                     <span id="outputL">--</span> <span class="unit">pouces</span>
+                     <button class="copy-button" data-clipboard-target="#outputL" id="copyL" aria-label="Copier la largeur convertie">Copier</button>
+                 </dd>
+                 <dt id="label-res-h">Hauteur Convertie:</dt>
+                 <dd>
+                     <span id="outputH">--</span> <span class="unit">pouces</span>
+                      <button class="copy-button" data-clipboard-target="#outputH" id="copyH" aria-label="Copier la hauteur convertie">Copier</button>
+                </dd>
+                 <dt id="label-res-diag-cm-calc">Diagonale (Calculée L/H):</dt>
+                 <dd><span id="outputDiagCmCalc">--</span> <span class="unit">cm</span></dd>
+                 <dt id="label-res-diag-in-calc">Diagonale (Calculée L/H):</dt>
+                 <dd>
+                    <span id="outputDiagInCalc">--</span> <span class="unit">pouces</span>
+                    <button class="copy-button" data-clipboard-target="#outputDiagInCalc" id="copyDiagCalc" aria-label="Copier la diagonale calculée en pouces">Copier</button>
+                 </dd>
+                 <dt id="label-res-aspect-ratio">Ratio d'Aspect (L:H):</dt>
+                 <dd><span id="outputAspectRatio">--</span></dd>
+                 <dt id="label-res-area-cm">Surface:</dt>
+                 <dd><span id="outputAreaCm2">--</span> <span class="unit">cm²</span></dd>
+                  <dt id="label-res-area-in">Surface:</dt>
+                 <dd><span id="outputAreaIn2">--</span> <span class="unit">pouces²</span></dd>
+            </div>
+
+             <!-- Message d'erreur avec role=alert -->
+             <div id="error-message-converter" class="error-message" role="alert"></div>
+        </div>
+    </main>
+
+    <footer class="ad-section footer-ad" role="contentinfo">Zone Publicitaire Bas</footer>
+
+    <!-- Theme Switch -->
+    <div class="theme-switch-wrapper">
+        <label for="themeSwitch">Mode Sombre</label>
+        <label class="theme-switch" for="themeSwitch">
+            <input type="checkbox" id="themeSwitch" aria-label="Basculer le thème sombre/clair">
+            <span class="slider"></span>
+        </label>
+    </div>
+    <div class="theme-switch-wrapper">
+        <label for="themeSwitch" id="theme-label">Mode Sombre</label>
+        <label class="theme-switch" for="themeSwitch">
+            <input type="checkbox" id="themeSwitch" aria-labelledby="theme-label">
+            <span class="slider"></span>
+        </label>
+    </div>
+    <script src="theme_toggle.js"></script>
+    <script src="converter_script.js"></script>
+</body>
+</html>

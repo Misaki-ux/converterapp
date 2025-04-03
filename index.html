@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outils en Ligne - Accueil</title>
+    <link rel="stylesheet" href="style.css"> <!-- On réutilise le même CSS de base -->
+    <style>
+        /* Styles spécifiques pour la page d'accueil */
+        .hub-header {
+             background-color: #4a6fa5; /* Un bleu différent pour le hub */
+             color: white;
+             padding: 30px 20px;
+             text-align: center;
+             border-bottom: 5px solid #3b5998;
+        }
+        .hub-header h1 {
+             margin: 0;
+             font-size: 2.5em;
+             color: white; /* Assurer que le h1 hérite ou a sa propre couleur */
+        }
+
+         .tools-container {
+            display: flex;
+            flex-wrap: wrap; /* Permet aux cartes de passer à la ligne */
+            justify-content: center; /* Centre les cartes horizontalement */
+            gap: 30px; /* Espace entre les cartes */
+            padding: 40px 20px; /* Espace autour des cartes */
+        }
+
+        .tool-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px 30px;
+            text-align: center;
+            width: 280px; /* Largeur fixe pour chaque carte */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column; /* Aligne le contenu verticalement */
+            justify-content: space-between; /* Pousse le bouton vers le bas */
+            min-height: 200px; /* Hauteur minimale pour l'alignement */
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px); /* Petit effet au survol */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-card h2 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .tool-card p {
+            color: #555;
+            font-size: 0.95em;
+            flex-grow: 1; /* Permet à la description de prendre l'espace */
+            margin-bottom: 25px; /* Espace avant le bouton */
+        }
+
+        .tool-card a.button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+
+        .tool-card a.button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Simple footer pour la page d'accueil */
+         .hub-footer {
+             text-align: center;
+             padding: 15px;
+             margin-top: auto; /* Pousse vers le bas */
+             font-size: 0.9em;
+             color: #777;
+             background-color: #f1f1f1;
+             border-top: 1px solid #ddd;
+         }
+
+    </style>
+</head>
+<body>
+
+    <header class="hub-header">
+        <h1>Mes Outils en Ligne</h1>
+    </header>
+
+    <main class="tools-container">
+
+        <!-- Carte pour le Convertisseur d'Écran -->
+        <div class="tool-card">
+            <h2>Convertisseur Taille Écran</h2>
+            <p>Calculez la largeur, hauteur et diagonale de votre écran en pouces à partir des dimensions en centimètres.</p>
+            <a href="converter.html" class="button">Utiliser le Convertisseur</a>
+        </div>
+
+        <!-- Carte pour le Calculateur Produit en Croix -->
+        <div class="tool-card">
+            <h2>Calculateur Produit en Croix</h2>
+            <p>Effectuez un calcul de produit en croix simple et rapide (A × B / C = D).</p>
+            <a href="calculator.html" class="button">Utiliser le Calculateur</a>
+        </div>
+
+        <!-- Ajoutez d'autres cartes ici si vous créez plus d'outils -->
+
+    </main>
+
+    <footer class="hub-footer">
+        © 2023 Vos Outils Pratiques
+    </footer>
+    <div class="theme-switch-wrapper">
+        <!-- Le label texte peut être caché sur mobile par le CSS -->
+        <label for="themeSwitch" id="theme-label">Mode Sombre</label>
+        <label class="theme-switch" for="themeSwitch">
+            <input type="checkbox" id="themeSwitch" aria-labelledby="theme-label"> <!-- aria-labelledby pour lier au label visible -->
+            <span class="slider"></span>
+        </label>
+    </div>
+    <script src="theme_toggle.js"></script>
+    <!-- Pas besoin de JS spécifique pour cette page d'accueil simple -->
+</body>
+</html>
