@@ -1,138 +1,132 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr"> <!-- La langue sera définie par JS -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outils en Ligne - Accueil</title>
-    <link rel="stylesheet" href="style.css"> <!-- On réutilise le même CSS de base -->
+    <title>Online Tools Hub</title> <!-- Sera mis à jour par JS -->
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* Styles spécifiques pour la page d'accueil */
+        /* Styles spécifiques pour la page d'accueil (Hub) */
+        /* Assurez-vous que les styles pour .language-switcher sont dans style.css ou ici */
+        .language-switcher {
+             position: absolute; /* Ou autre positionnement */
+             top: 15px;
+             right: 15px;
+             z-index: 10; /* Au-dessus du header si nécessaire */
+         }
+        .language-switcher button { padding: 6px 12px; margin-left: 5px; /* Styles de base */ }
+        .language-switcher button.active { background-color: var(--accent-color); color: var(--button-text); /* Style actif */ }
+
+        /* --- Styles copiés d'avant --- */
         .hub-header {
              background-color: #4a6fa5; /* Un bleu différent pour le hub */
              color: white;
              padding: 30px 20px;
              text-align: center;
              border-bottom: 5px solid #3b5998;
+             position: relative; /* Pour positionner le switcher si besoin */
         }
         .hub-header h1 {
              margin: 0;
              font-size: 2.5em;
-             color: white; /* Assurer que le h1 hérite ou a sa propre couleur */
+             color: white;
         }
-
          .tools-container {
-            display: flex;
-            flex-wrap: wrap; /* Permet aux cartes de passer à la ligne */
-            justify-content: center; /* Centre les cartes horizontalement */
-            gap: 30px; /* Espace entre les cartes */
-            padding: 40px 20px; /* Espace autour des cartes */
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 30px; padding: 40px 20px;
         }
-
         .tool-card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 25px 30px;
-            text-align: center;
-            width: 280px; /* Largeur fixe pour chaque carte */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column; /* Aligne le contenu verticalement */
-            justify-content: space-between; /* Pousse le bouton vers le bas */
-            min-height: 200px; /* Hauteur minimale pour l'alignement */
+            background-color: var(--content-bg-color, #ffffff); /* Use theme variable */
+            border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color, rgba(0, 0, 0, 0.1));
+            padding: 25px 30px; text-align: center; width: 280px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex;
+            flex-direction: column; justify-content: space-between; min-height: 200px;
+            border: 1px solid var(--border-color, #eee); /* Add border for theme consistency */
+            color: var(--text-color, #333); /* Use theme variable */
         }
-
-        .tool-card:hover {
-            transform: translateY(-5px); /* Petit effet au survol */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .tool-card h2 {
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.4em;
-        }
-
-        .tool-card p {
-            color: #555;
-            font-size: 0.95em;
-            flex-grow: 1; /* Permet à la description de prendre l'espace */
-            margin-bottom: 25px; /* Espace avant le bouton */
-        }
-
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px var(--shadow-color, rgba(0, 0, 0, 0.15)); }
+        .tool-card h2 { color: var(--text-color, #333); margin-top: 0; margin-bottom: 15px; font-size: 1.4em; }
+        .tool-card p { color: var(--text-muted-color, #555); font-size: 0.95em; flex-grow: 1; margin-bottom: 25px; }
         .tool-card a.button {
-            display: inline-block;
-            background-color: #007bff;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
+            display: inline-block; background-color: var(--button-bg, #007bff); /* Use theme variable */
+            color: var(--button-text, white); /* Use theme variable */
+            padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;
             transition: background-color 0.2s ease;
         }
-
-        .tool-card a.button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Simple footer pour la page d'accueil */
+        .tool-card a.button:hover { background-color: var(--button-hover-bg, #0056b3); } /* Use theme variable */
          .hub-footer {
-             text-align: center;
-             padding: 15px;
-             margin-top: auto; /* Pousse vers le bas */
-             font-size: 0.9em;
-             color: #777;
-             background-color: #f1f1f1;
-             border-top: 1px solid #ddd;
+             text-align: center; padding: 15px; margin-top: auto;
+             font-size: 0.9em; color: var(--header-footer-text, #777); /* Use theme variable */
+             background-color: var(--header-footer-bg, #f1f1f1); /* Use theme variable */
+             border-top: 1px solid var(--border-color, #ddd);
          }
+         /* Styles pour le theme switcher (doivent être dans style.css) */
+         .theme-switch-wrapper { /* Styles de base */ }
+         .theme-switch-wrapper label { /* Styles label */ }
+         .theme-switch { /* Styles switch */ }
+         .slider { /* Styles slider */ }
+         .slider:before { /* Styles rond slider */ }
+         input:checked + .slider { /* Styles si checked */ }
+         input:focus-visible + .slider { /* Styles focus */ }
+         input:checked + .slider:before { /* Styles rond si checked */ }
 
     </style>
 </head>
 <body>
 
     <header class="hub-header">
-        <h1>Mes Outils en Ligne</h1>
+        <!-- Sélecteur de langue ajouté ici -->
+         <div class="language-switcher">
+             <button id="lang-fr" aria-pressed="true">Français</button>
+             <button id="lang-en" aria-pressed="false">English</button>
+         </div>
+        <h1 id="hub-title">Mes Outils en Ligne</h1> <!-- ID ajouté -->
     </header>
 
     <main class="tools-container">
 
         <!-- Carte pour le Convertisseur d'Écran -->
         <div class="tool-card">
-            <h2>Convertisseur Taille Écran</h2>
-            <p>Calculez la largeur, hauteur et diagonale de votre écran en pouces à partir des dimensions en centimètres.</p>
-            <a href="converter.html" class="button">Utiliser le Convertisseur</a>
+            <h2 id="tool1-title">Convertisseur Taille Écran</h2> <!-- ID ajouté -->
+            <p id="tool1-desc">Calculez la largeur, hauteur et diagonale de votre écran en pouces à partir des dimensions en centimètres.</p> <!-- ID ajouté -->
+            <a href="converter.html" class="button" id="tool1-button">Utiliser le Convertisseur</a> <!-- ID ajouté -->
         </div>
 
-        <!-- Carte pour le Calculateur Produit en Croix -->
+        <!-- Carte pour le Calculateur Produit en Croix (Si tu l'ajoutes) -->
+        <!--
         <div class="tool-card">
-            <h2>Calculateur Produit en Croix</h2>
-            <p>Effectuez un calcul de produit en croix simple et rapide (A × B / C = D).</p>
-            <a href="calculator.html" class="button">Utiliser le Calculateur</a>
+            <h2 id="tool2-title">Calculateur Produit en Croix</h2>
+            <p id="tool2-desc">Effectuez un calcul de produit en croix simple et rapide (A × B / C = D).</p>
+            <a href="calculator.html" class="button" id="tool2-button">Utiliser le Calculateur</a>
+        </div>
+        -->
+
+         <!-- Carte pour le Convertisseur d'Unités -->
+         <div class="tool-card">
+            <h2 id="tool3-title">Convertisseur d'Unités</h2> <!-- ID ajouté -->
+            <p id="tool3-desc">Convertissez diverses unités comme la longueur, le poids/masse et la température.</p> <!-- ID ajouté -->
+            <a href="unitconverter.html" class="button" id="tool3-button">Utiliser le Convertisseur</a> <!-- ID ajouté -->
         </div>
 
-        <!-- Carte pour le Convertisseur d'Unités -->
-        <div class="tool-card">
-            <h2>Unit Converter</h2>
-            <p>Convert various units like length, weight, temperature, and more.</p>
-            <a href="unitconverter.html" class="button">Use Unit Converter</a>
-        </div>
         <!-- Ajoutez d'autres cartes ici si vous créez plus d'outils -->
 
     </main>
 
     <footer class="hub-footer">
-        © 2023 Vos Outils Pratiques
+        <span id="hub-footer-text">© 2023 Vos Outils Pratiques</span> <!-- ID ajouté au contenu -->
     </footer>
+
+    <!-- Theme Switcher -->
     <div class="theme-switch-wrapper">
-        <!-- Le label texte peut être caché sur mobile par le CSS -->
-        <label for="themeSwitch" id="theme-label">Mode Sombre</label>
+        <label for="themeSwitch" id="theme-label">Mode Sombre</label> <!-- ID existant -->
         <label class="theme-switch" for="themeSwitch">
-            <input type="checkbox" id="themeSwitch" aria-labelledby="theme-label"> <!-- aria-labelledby pour lier au label visible -->
+            <input type="checkbox" id="themeSwitch" aria-labelledby="theme-label">
             <span class="slider"></span>
         </label>
     </div>
-    <script src="theme_toggle.js"></script>
-    <!-- Pas besoin de JS spécifique pour cette page d'accueil simple -->
+
+    <script src="theme_toggle.js"></script> <!-- Script du thème -->
+    <script src="hub_script.js" defer></script> <!-- Nouveau script pour le hub -->
+
 </body>
 </html>
