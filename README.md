@@ -108,11 +108,5 @@ Contributions, issues, and feature requests are welcome!
 ---
 
 ## License 📄
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-*(Choose a license or state otherwise)*
-
-This project is licensed under the MIT License - see the `LICENSE` file for details.
-
-**OR**
-
-This project is currently unlicensed.
