@@ -245,15 +245,16 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             outputFinalInches.textContent = '--';
         }
-         errorMessageDiv.textContent = errorMessages.join(' ');
-         errorMessageDiv.style.display = errorMessages.length > 0 ? 'block' : 'none';
+         
          const resultsAreValid = errorMessages.length === 0 || !errorMessages.includes(texts[currentLang].errorMsgDiag);
          copyButtons.forEach(btn => {
-             // Activer seulement si le résultat correspondant n'est pas '--' ET qu'il n'y a pas d'erreur bloquante
-             const targetSelector = btn.dataset.clipboardTarget;
+            // Activer seulement si le résultat correspondant n'est pas '--' ET qu'il n'y a pas d'erreur bloquante
+            const targetSelector = btn.dataset.clipboardTarget;
             const targetElement = document.querySelector(targetSelector);
             btn.disabled = !resultsAreValid || !targetElement || targetElement.textContent === '--';
          });
+         errorMessageDiv.textContent = errorMessages.join(' ');
+         errorMessageDiv.style.display = errorMessages.length > 0 ? 'block' : 'none';
     }
     
     // --- Event Listeners ---
