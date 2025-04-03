@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertisseur Taille Écran Avancé</title>
+    <title>Convertisseur Taille Écran Avancé</title> <!-- Title will be updated by JS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -47,7 +47,9 @@
              <div class="result-final" aria-live="polite">
                  <span class="label" id="label-final-size">Taille d'écran estimée :</span>
                  <span class="value">
-                     <span id="outputFinalInches">--</span><span class="unit">pouces</span>
+                     <span id="outputFinalInches">--</span>
+                     <!-- Added data-unit-type and ID -->
+                     <span class="unit" data-unit-type="length-in" id="unit-final-inches">pouces</span>
                      <button class="copy-button" data-clipboard-target="#outputFinalInches" id="copyFinalInches" aria-label="Copier la taille d'écran estimée">Copier</button>
                  </span>
              </div>
@@ -57,52 +59,64 @@
             <div class="results-grid" role="region" aria-labelledby="details-title">
                  <dt id="label-res-l">Largeur Convertie:</dt>
                  <dd>
-                     <span id="outputL">--</span> <span class="unit">pouces</span>
+                     <span id="outputL">--</span>
+                     <!-- Added data-unit-type and ID -->
+                     <span class="unit" data-unit-type="length-in" id="unit-l">pouces</span>
                      <button class="copy-button" data-clipboard-target="#outputL" id="copyL" aria-label="Copier la largeur convertie">Copier</button>
                  </dd>
                  <dt id="label-res-h">Hauteur Convertie:</dt>
                  <dd>
-                     <span id="outputH">--</span> <span class="unit">pouces</span>
+                     <span id="outputH">--</span>
+                     <!-- Added data-unit-type and ID -->
+                     <span class="unit" data-unit-type="length-in" id="unit-h">pouces</span>
                       <button class="copy-button" data-clipboard-target="#outputH" id="copyH" aria-label="Copier la hauteur convertie">Copier</button>
                 </dd>
                  <dt id="label-res-diag-cm-calc">Diagonale (Calculée L/H):</dt>
-                 <dd><span id="outputDiagCmCalc">--</span> <span class="unit">cm</span></dd>
+                 <dd>
+                     <span id="outputDiagCmCalc">--</span>
+                     <!-- Added data-unit-type and ID -->
+                     <span class="unit" data-unit-type="length-cm" id="unit-diag-cm">cm</span>
+                 </dd>
                  <dt id="label-res-diag-in-calc">Diagonale (Calculée L/H):</dt>
                  <dd>
-                    <span id="outputDiagInCalc">--</span> <span class="unit">pouces</span>
+                    <span id="outputDiagInCalc">--</span>
+                    <!-- Added data-unit-type and ID -->
+                    <span class="unit" data-unit-type="length-in" id="unit-diag-in">pouces</span>
                     <button class="copy-button" data-clipboard-target="#outputDiagInCalc" id="copyDiagCalc" aria-label="Copier la diagonale calculée en pouces">Copier</button>
                  </dd>
                  <dt id="label-res-aspect-ratio">Ratio d'Aspect (L:H):</dt>
-                 <dd><span id="outputAspectRatio">--</span></dd>
+                 <dd><span id="outputAspectRatio">--</span></dd> <!-- No unit -->
                  <dt id="label-res-area-cm">Surface:</dt>
-                 <dd><span id="outputAreaCm2">--</span> <span class="unit">cm²</span></dd>
+                 <dd>
+                     <span id="outputAreaCm2">--</span>
+                     <!-- Added data-unit-type and ID -->
+                     <span class="unit" data-unit-type="area-cm" id="unit-area-cm">cm²</span>
+                 </dd>
                   <dt id="label-res-area-in">Surface:</dt>
-                 <dd><span id="outputAreaIn2">--</span> <span class="unit">pouces²</span></dd>
+                 <dd>
+                     <span id="outputAreaIn2">--</span>
+                     <!-- Added data-unit-type and ID -->
+                     <span class="unit" data-unit-type="area-in" id="unit-area-in">pouces²</span>
+                 </dd>
             </div>
 
              <!-- Message d'erreur avec role=alert -->
-             <div id="error-message-converter" class="error-message" role="alert"></div>
+             <div id="error-message-converter" class="error-message" role="alert" style="display: none;"></div> <!-- Hide initially -->
         </div>
     </main>
 
     <footer class="ad-section footer-ad" role="contentinfo">Zone Publicitaire Bas</footer>
 
-    <!-- Theme Switch -->
+    <!-- Theme Switch - Only ONE section needed -->
     <div class="theme-switch-wrapper">
-        <label for="themeSwitch">Mode Sombre</label>
-        <label class="theme-switch" for="themeSwitch">
-            <input type="checkbox" id="themeSwitch" aria-label="Basculer le thème sombre/clair">
-            <span class="slider"></span>
-        </label>
-    </div>
-    <div class="theme-switch-wrapper">
-        <label for="themeSwitch" id="theme-label">Mode Sombre</label>
+        <label for="themeSwitch" id="theme-label">Mode Sombre</label> <!-- Label updated by JS -->
         <label class="theme-switch" for="themeSwitch">
             <input type="checkbox" id="themeSwitch" aria-labelledby="theme-label">
             <span class="slider"></span>
         </label>
     </div>
-    <script src="theme_toggle.js"></script>
+
+    <script src="theme_toggle.js"></script> <!-- Ensure this file exists and works -->
     <script src="converter_script.js"></script>
 </body>
 </html>

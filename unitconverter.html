@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Set default lang, JS could potentially update later if needed -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your main stylesheet -->
+    <style>
+        /* Add specific styles if needed, or ensure style.css covers these elements */
+        .unit-converter-container {
+            max-width: 450px; /* Slightly wider maybe */
+            margin: 40px auto;
+            padding: 30px;
+            border: 1px solid #ccc; /* Consistent with other containers */
+            border-radius: 10px;
+            background-color: var(--background-color, #fff); /* Use theme variable */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: var(--text-color, #333); /* Use theme variable */
+        }
+        .unit-converter-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--header-text-color, #333); /* Use theme variable */
+        }
+        .unit-converter-container label {
+            display: block;
+            margin: 10px 0 5px 0;
+            font-weight: bold;
+        }
+        .unit-converter-container select,
+        .unit-converter-container input,
+        .unit-converter-container button {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: var(--input-bg-color, #fff);
+            color: var(--input-text-color, #333);
+        }
+        .unit-converter-container button {
+            background-color: #007bff; /* Keep consistent button color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .unit-converter-container button:hover {
+            background-color: #0056b3;
+        }
+        .result-display {
+            font-size: 1.2em; /* Make result slightly larger */
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--result-bg-color, #e9ecef); /* Use theme variable */
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            min-height: 1.5em;
+            line-height: 1.5em;
+            text-align: center;
+            word-wrap: break-word; /* Prevent long numbers from overflowing */
+        }
+         .error-display {
+             color: #dc3545; /* Standard error color */
+             background-color: var(--error-bg-color, #f8d7da);
+             border: 1px solid var(--error-border-color, #f5c6cb);
+             padding: 10px;
+             border-radius: 5px;
+             margin-top: 15px;
+             text-align: center;
+             display: none; /* Hidden by default */
+         }
+         /* Consistent top navigation */
+         .top-nav-area {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             margin-bottom: 20px;
+             padding: 0 10px; /* Add some padding */
+             flex-wrap: wrap; /* Allow wrapping on small screens */
+         }
+         .navigation-area a.back-button {
+             /* Use styles consistent with your converter.html back button */
+             display: inline-block;
+             padding: 8px 15px;
+             background-color: var(--button-secondary-bg, #6c757d);
+             color: white;
+             text-decoration: none;
+             border-radius: 5px;
+             transition: background-color 0.2s ease;
+         }
+         .navigation-area a.back-button:hover {
+             background-color: var(--button-secondary-hover-bg, #5a6268);
+         }
+         /* Adjust language switcher if you add it */
+
+    </style>
+</head>
+<body>
+    <!-- Optional: Add Ad Banner if desired -->
+    <!-- <header class="ad-section header-ad" role="banner">Zone Publicitaire Haut</header> -->
+
+    <main class="content" role="main">
+        <div class="top-nav-area">
+            <div class="navigation-area">
+                <!-- Link back to your main index.html -->
+                <a href="index.html" class="button back-button" id="back-to-home">← Back to Tools</a>
+            </div>
+             <!-- Placeholder for language switcher if needed later -->
+             <!-- <div class="language-switcher"> -->
+                 <!-- <button id="lang-fr">Français</button> -->
+                 <!-- <button id="lang-en" class="active">English</button> -->
+             <!-- </div> -->
+        </div>
+
+        <div class="unit-converter-container">
+            <h2>Unit Converter</h2>
+
+            <label for="categorySelect">Category:</label>
+            <select id="categorySelect">
+                <option value="length">Length</option>
+                <option value="weight">Weight / Mass</option>
+                <option value="temperature">Temperature</option>
+                <!-- Add more categories here if needed (e.g., volume, speed) -->
+            </select>
+
+            <label for="valueInput">Value:</label>
+            <input type="number" id="valueInput" placeholder="Enter value to convert" step="any">
+
+            <label for="fromUnitSelect">From:</label>
+            <select id="fromUnitSelect"></select> <!-- Options populated by JS -->
+
+            <label for="toUnitSelect">To:</label>
+            <select id="toUnitSelect"></select> <!-- Options populated by JS -->
+
+            <button id="convertButton">Convert</button>
+
+            <div class="result-display" id="resultDisplay" aria-live="polite">Result: </div>
+            <div class="error-display" id="errorDisplay" role="alert"></div> <!-- For error messages -->
+        </div>
+    </main>
+
+    <!-- Optional: Add Ad Banner if desired -->
+    <!-- <footer class="ad-section footer-ad" role="contentinfo">Zone Publicitaire Bas</footer> -->
+
+    <!-- Theme Switcher (copied from your index.html for consistency) -->
+    <div class="theme-switch-wrapper">
+        <label for="themeSwitch" id="theme-label">Dark Mode</label>
+        <label class="theme-switch" for="themeSwitch">
+            <input type="checkbox" id="themeSwitch" aria-labelledby="theme-label">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <script src="theme_toggle.js"></script> <!-- Include your theme toggle script -->
+    <script src="unitconverter_script.js" defer></script> <!-- Link to the new JS -->
+
+</body>
+</html>

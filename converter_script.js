@@ -247,21 +247,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
          errorMessageDiv.textContent = errorMessages.join(' ');
          errorMessageDiv.style.display = errorMessages.length > 0 ? 'block' : 'none';
+         const resultsAreValid = errorMessages.length === 0 || !errorMessages.includes(texts[currentLang].errorMsgDiag);
+         copyButtons.forEach(btn => {
+             // Activer seulement si le résultat correspondant n'est pas '--' ET qu'il n'y a pas d'erreur bloquante
+             const targetSelector = btn.dataset.clipboardTarget;
+            const targetElement = document.querySelector(targetSelector);
+            btn.disabled = !resultsAreValid || !targetElement || targetElement.textContent === '--';
+         });
     }
-    // --- Display Errors ---
-    errorMessageDiv.textContent = errorMessages.join(' ');
-    errorMessageDiv.style.display = errorMessages.length > 0 ? 'block' : 'none';
-    // Mettre le focus sur le message d'erreur pour l'accessibilité ? Optionnel.
-    // if (errorMessages.length > 0) { errorMessageDiv.focus(); } // Peut être déroutant
-
-    // Assurer que les boutons copier sont correctement activés/désactivés
-    const resultsAreValid = errorMessages.length === 0 || !errorMessages.includes(texts[currentLang].errorMsgDiag);
-    copyButtons.forEach(btn => {
-        // Activer seulement si le résultat correspondant n'est pas '--' ET qu'il n'y a pas d'erreur bloquante
-        const targetSelector = btn.dataset.clipboardTarget;
-       const targetElement = document.querySelector(targetSelector);
-       btn.disabled = !resultsAreValid || !targetElement || targetElement.textContent === '--';
-    });
     
     // --- Event Listeners ---
     cmInputL.addEventListener('input', calculateConversion);

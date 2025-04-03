@@ -72,7 +72,71 @@
     --focus-outline-color: #4dabf7;
     --shadow-color: rgba(255, 255, 255, 0.05);
 }
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4; /* Added a light background */
+}
 
+.container {
+    max-width: 400px;
+    margin: 40px auto; /* Added more top margin */
+    padding: 30px; /* Increased padding */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff; /* White background for the container */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added subtle shadow */
+}
+
+h2 {
+    margin-bottom: 20px; /* Added space below heading */
+    color: #333;
+}
+
+label {
+    display: block; /* Make labels appear on their own line */
+    text-align: left;
+    margin: 10px 0 5px 0; /* Adjust label spacing */
+    font-weight: bold;
+    color: #555;
+}
+
+select,
+input,
+button {
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
+    width: 100%;
+    margin-bottom: 15px; /* Consistent spacing below elements */
+    padding: 12px; /* Slightly larger padding */
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Slightly smaller radius */
+}
+
+button {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.result {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px; /* More space above result */
+    padding: 10px;
+    background-color: #e9ecef; /* Light background for result */
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    min-height: 1.5em; /* Ensure it has some height even when empty */
+    line-height: 1.5em;
+}
 /* --- Styles de Base --- */
 html {
     box-sizing: border-box;
