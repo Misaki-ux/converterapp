@@ -1,162 +1,111 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- Set default lang, JS could potentially update later if needed -->
+<html lang="en"> <!-- Langue par défaut, sera mise à jour par JS -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Converter</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link to your main stylesheet -->
+    <title>Unit Converter</title> <!-- Sera mis à jour par JS -->
+    <link rel="stylesheet" href="style.css"> <!-- Lien vers la feuille de style principale -->
     <style>
-        /* Add specific styles if needed, or ensure style.css covers these elements */
+        /* Styles spécifiques copiés d'avant - S'assurer qu'ils sont bien dans style.css ou ici */
         .unit-converter-container {
-            max-width: 450px; /* Slightly wider maybe */
-            margin: 40px auto;
-            padding: 30px;
-            border: 1px solid #ccc; /* Consistent with other containers */
-            border-radius: 10px;
-            background-color: var(--background-color, #fff); /* Use theme variable */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            color: var(--text-color, #333); /* Use theme variable */
+            max-width: 450px; margin: 40px auto; padding: 30px;
+            border: 1px solid var(--border-color, #ccc); /* Utilise variable CSS */
+            border-radius: 10px; background-color: var(--content-bg-color, #fff);
+            box-shadow: 0 2px 5px var(--shadow-color, rgba(0,0,0,0.1));
+            color: var(--text-color, #333);
         }
-        .unit-converter-container h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--header-text-color, #333); /* Use theme variable */
-        }
-        .unit-converter-container label {
-            display: block;
-            margin: 10px 0 5px 0;
-            font-weight: bold;
-        }
+        .unit-converter-container h2 { text-align: center; margin-bottom: 25px; color: var(--text-color, #333); }
+        .unit-converter-container label { display: block; margin: 10px 0 5px 0; font-weight: 600; color: var(--text-muted-color, #555); } /* Style cohérent */
         .unit-converter-container select,
         .unit-converter-container input,
         .unit-converter-container button {
-            box-sizing: border-box;
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            background-color: var(--input-bg-color, #fff);
-            color: var(--input-text-color, #333);
+            box-sizing: border-box; width: 100%; padding: 12px; margin-bottom: 15px;
+            border: 1px solid var(--input-border, #ccc); border-radius: 5px; font-size: 1em;
+            background-color: var(--input-bg, #fff); color: var(--text-color, #333); /* Variables CSS */
         }
         .unit-converter-container button {
-            background-color: #007bff; /* Keep consistent button color */
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
+            background-color: var(--button-bg, #007bff); color: var(--button-text, white);
+            border: none; cursor: pointer; transition: background-color 0.2s ease; font-weight: 600;
         }
-        .unit-converter-container button:hover {
-            background-color: #0056b3;
-        }
+        .unit-converter-container button:hover { background-color: var(--button-hover-bg, #0056b3); }
         .result-display {
-            font-size: 1.2em; /* Make result slightly larger */
-            font-weight: bold;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: var(--result-bg-color, #e9ecef); /* Use theme variable */
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            min-height: 1.5em;
-            line-height: 1.5em;
-            text-align: center;
-            word-wrap: break-word; /* Prevent long numbers from overflowing */
+            font-size: 1.2em; font-weight: bold; margin-top: 20px; padding: 15px;
+            background-color: var(--result-bg, #e9f5ff); border: 1px solid var(--result-border, #bde0ff);
+            border-radius: 5px; min-height: 1.5em; line-height: 1.5em; text-align: center;
+            word-wrap: break-word; color: var(--result-value-color, #0056b3); /* Couleur résultat */
         }
-         .error-display {
-             color: #dc3545; /* Standard error color */
-             background-color: var(--error-bg-color, #f8d7da);
-             border: 1px solid var(--error-border-color, #f5c6cb);
-             padding: 10px;
-             border-radius: 5px;
-             margin-top: 15px;
-             text-align: center;
-             display: none; /* Hidden by default */
+         .error-display { /* Style commun d'erreur */
+             color: var(--error-text, #721c24); background-color: var(--error-bg, #f8d7da);
+             border: 1px solid var(--error-border, #f5c6cb); padding: 10px 15px; border-radius: 4px;
+             margin-top: 15px; text-align: center; display: none; font-size: 0.9em;
          }
-         /* Consistent top navigation */
-         .top-nav-area {
-             display: flex;
-             justify-content: space-between;
-             align-items: center;
-             margin-bottom: 20px;
-             padding: 0 10px; /* Add some padding */
-             flex-wrap: wrap; /* Allow wrapping on small screens */
-         }
-         .navigation-area a.back-button {
-             /* Use styles consistent with your converter.html back button */
-             display: inline-block;
-             padding: 8px 15px;
-             background-color: var(--button-secondary-bg, #6c757d);
-             color: white;
-             text-decoration: none;
-             border-radius: 5px;
-             transition: background-color 0.2s ease;
-         }
-         .navigation-area a.back-button:hover {
-             background-color: var(--button-secondary-hover-bg, #5a6268);
-         }
-         /* Adjust language switcher if you add it */
+         /* Styles pour top-nav-area, back-button, language-switcher (devraient être dans style.css) */
+         .top-nav-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 0 10px; flex-wrap: wrap; gap: 15px; }
+         .navigation-area a.back-button { display: inline-block; padding: 8px 15px; background-color: var(--button-secondary-bg, #6c757d); color: var(--button-text, white); text-decoration: none; border-radius: 5px; transition: background-color 0.2s ease; font-size: 0.9em; }
+         .navigation-area a.back-button:hover { background-color: var(--button-secondary-hover-bg, #5a6268); }
+         .language-switcher button { padding: 6px 12px; margin-left: 5px; border: 1px solid var(--border-color); background-color: transparent; color: var(--text-muted-color); border-radius: 4px; cursor: pointer; }
+         .language-switcher button:hover { background-color: rgba(128, 128, 128, 0.1); }
+         .language-switcher button.active { background-color: var(--accent-color); color: var(--button-text); border-color: var(--accent-color); font-weight: bold; }
 
     </style>
 </head>
 <body>
-    <!-- Optional: Add Ad Banner if desired -->
-    <!-- <header class="ad-section header-ad" role="banner">Zone Publicitaire Haut</header> -->
+    <!-- Optional: Ad Banners -->
+    <!-- <header class="ad-section header-ad" role="banner">Ad Banner Top</header> -->
 
     <main class="content" role="main">
         <div class="top-nav-area">
             <div class="navigation-area">
-                <!-- Link back to your main index.html -->
                 <a href="index.html" class="button back-button" id="back-to-home">← Back to Tools</a>
             </div>
-             <!-- Placeholder for language switcher if needed later -->
-             <!-- <div class="language-switcher"> -->
-                 <!-- <button id="lang-fr">Français</button> -->
-                 <!-- <button id="lang-en" class="active">English</button> -->
-             <!-- </div> -->
+             <!-- Sélecteur de langue ajouté -->
+             <div class="language-switcher">
+                 <button id="lang-fr" aria-pressed="false">Français</button>
+                 <button id="lang-en" class="active" aria-pressed="true">English</button>
+             </div>
         </div>
 
         <div class="unit-converter-container">
-            <h2>Unit Converter</h2>
+            <h2 id="page-title">Unit Converter</h2> <!-- ID ajouté -->
 
-            <label for="categorySelect">Category:</label>
+            <label for="categorySelect" id="label-category">Category:</label> <!-- ID ajouté -->
             <select id="categorySelect">
                 <option value="length">Length</option>
                 <option value="weight">Weight / Mass</option>
                 <option value="temperature">Temperature</option>
-                <!-- Add more categories here if needed (e.g., volume, speed) -->
+                <!-- Ajoutez d'autres catégories si nécessaire -->
             </select>
 
-            <label for="valueInput">Value:</label>
-            <input type="number" id="valueInput" placeholder="Enter value to convert" step="any">
+            <label for="valueInput" id="label-value">Value:</label> <!-- ID ajouté -->
+            <input type="number" id="valueInput" placeholder="Enter value to convert" step="any"> <!-- Placeholder sera mis à jour -->
 
-            <label for="fromUnitSelect">From:</label>
-            <select id="fromUnitSelect"></select> <!-- Options populated by JS -->
+            <label for="fromUnitSelect" id="label-from">From:</label> <!-- ID ajouté -->
+            <select id="fromUnitSelect"></select>
 
-            <label for="toUnitSelect">To:</label>
-            <select id="toUnitSelect"></select> <!-- Options populated by JS -->
+            <label for="toUnitSelect" id="label-to">To:</label> <!-- ID ajouté -->
+            <select id="toUnitSelect"></select>
 
-            <button id="convertButton">Convert</button>
+            <button id="convertButton">Convert</button> <!-- Texte sera mis à jour -->
 
-            <div class="result-display" id="resultDisplay" aria-live="polite">Result: </div>
-            <div class="error-display" id="errorDisplay" role="alert"></div> <!-- For error messages -->
+            <div class="result-display" id="resultDisplay" aria-live="polite">Result: </div> <!-- Préfixe sera mis à jour -->
+            <div class="error-display" id="errorDisplay" role="alert"></div>
         </div>
     </main>
 
-    <!-- Optional: Add Ad Banner if desired -->
-    <!-- <footer class="ad-section footer-ad" role="contentinfo">Zone Publicitaire Bas</footer> -->
+    <!-- Optional: Ad Banners -->
+    <!-- <footer class="ad-section footer-ad" role="contentinfo">Ad Banner Bottom</footer> -->
 
-    <!-- Theme Switcher (copied from your index.html for consistency) -->
+    <!-- Theme Switcher (Assurez-vous que theme_toggle.js est fonctionnel) -->
     <div class="theme-switch-wrapper">
-        <label for="themeSwitch" id="theme-label">Dark Mode</label>
+        <label for="themeSwitch" id="theme-label">Dark Mode</label> <!-- ID est présent -->
         <label class="theme-switch" for="themeSwitch">
             <input type="checkbox" id="themeSwitch" aria-labelledby="theme-label">
             <span class="slider"></span>
         </label>
     </div>
 
-    <script src="theme_toggle.js"></script> <!-- Include your theme toggle script -->
-    <script src="unitconverter_script.js" defer></script> <!-- Link to the new JS -->
+    <script src="theme_toggle.js"></script>
+    <script src="unitconverter_script.js" defer></script> <!-- defer est important -->
 
 </body>
 </html>
