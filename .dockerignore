@@ -1,0 +1,5 @@
+.git
+.gitignore
+Dockerfile
+*.md
+# Ajoutez d'autres fichiers/dossiers à ignorer si nécessaire
