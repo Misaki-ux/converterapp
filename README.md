@@ -76,21 +76,36 @@ That's it! You can now use the tools directly from your local files.
 ## Usage 🖱️
 
 1.  Open `index.html` (the Hub page).
-2.  Click on the card for the tool you want to use ("Screen Size Converter" or "Unit Converter").
-3.  **For Screen Size Converter:**
+   ![image](https://github.com/user-attachments/assets/20bd2b6a-9269-425a-8a99-0e68c9fe35d4)
+
+3.  Click on the card for the tool you want to use ("Screen Size Converter" or "Unit Converter").
+4.  **For Screen Size Converter:**
+   ![image](https://github.com/user-attachments/assets/dd30d592-800f-4e12-80c4-8dcf489c929f)
+
     *   Enter the Width (L/W) and Height (H) in centimeters.
     *   Optionally, enter the measured diagonal in centimeters if known.
     *   Results (inches, aspect ratio, area) will update automatically.
     *   Use the language buttons (Fr/En) at the top to switch languages.
     *   Use the "Copy" buttons next to results to copy them to your clipboard.
     *   Use the "Reset" button to clear all inputs.
-4.  **For Unit Converter:**
+6.  **For Unit Converter (WIP) :**
+   ![image](https://github.com/user-attachments/assets/56de7825-9158-4bdb-8a44-09a8fe0077e7)
+
     *   Select the measurement `Category` (e.g., Length).
     *   Enter the `Value` you want to convert.
     *   Select the `From` unit and the `To` unit using the dropdowns.
     *   Click the `Convert` button.
     *   The result will be displayed below.
-5.  **Theme Toggle:** Use the sun/moon toggle switch (usually in a corner) on any page to switch between light and dark modes. Your preference is saved locally.
+    *   
+8.  **For Cross-multiplication:**
+9.  Enter values in 3 fields, wait for D to be calculated:
+![image](https://github.com/user-attachments/assets/a726c9e4-1baf-4200-858e-50e994d8cc01)
+
+10.  **Theme Toggle:** Use the sun/moon toggle switch (usually in a corner) on any page to switch between light and dark modes. Your preference is saved locally.
+
+
+https://github.com/user-attachments/assets/548ecdbd-efd3-4874-9d9a-ba97a160380a
+
 
 ---
 
