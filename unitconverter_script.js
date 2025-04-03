@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnEn = document.getElementById('lang-en');
     const themeLabel = document.getElementById('theme-label'); // For theme toggle text
 
-    // --- Language Data --- (COMPLÉTEZ AVEC VOS TRADUCTIONS)
+    // --- Language Data --- (VOS TRADUCTIONS ICI)
     const texts = {
         fr: {
             title: "Convertisseur d'Unités",
@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
             convertButtonText: "Convertir",
             resultPrefix: "Résultat :",
             themeLabel: "Mode Sombre",
-            // Error Messages
             errorValue: "Veuillez entrer un nombre valide.",
             errorUnits: "Veuillez sélectionner les unités 'De' et 'Vers'.",
             errorConfig: "Catégorie non configurée.",
@@ -43,8 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             errorResult: "Le calcul a produit un résultat invalide.",
             errorLogic: "Logique de conversion non implémentée.",
             errorUnknown: "Erreur de calcul inconnue."
-            // Note: Unit names (Meters, Celsius...) are usually kept in English
-            // but could be translated here if needed and accessed in updateUnits.
         },
         en: {
             title: "Unit Converter",
@@ -52,12 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
             labelCategory: "Category:",
             labelValue: "Value:",
             labelFrom: "From:",
-            labelTo: "To:",
+            labelTo: "To:", // Correction : était "Vers :"
             placeholderValue: "Enter value to convert",
             convertButtonText: "Convert",
             resultPrefix: "Result:",
             themeLabel: "Dark Mode",
-            // Error Messages
             errorValue: "Please enter a valid number for the value.",
             errorUnits: "Please select 'From' and 'To' units.",
             errorConfig: "Selected category is not configured.",
@@ -68,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Conversion Data (No changes needed here for language) ---
+    // --- Conversion Data ---
     const conversions = {
         length: { units: { Meters: 1, Kilometers: 0.001, Centimeters: 100, Millimeters: 1000, Miles: 0.000621371, Feet: 3.28084, Inches: 39.3701, Yards: 1.09361 }, base: "Meters" },
         weight: { units: { Kilograms: 1, Grams: 1000, Milligrams: 1000000, Pounds: 2.20462, Ounces: 35.274, MetricTons: 0.001 }, base: "Kilograms" },
@@ -96,194 +92,110 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Helper Functions ---
-
-    function getCurrentLang() {
-        return htmlTag.lang || 'en'; // Default to English if not set
-    }
-
+    function getCurrentLang() { return htmlTag.lang || 'en'; }
     function clearResultAndError() {
-        const currentLang = getCurrentLang();
-        const currentTexts = texts[currentLang];
-        resultDisplay.textContent = currentTexts.resultPrefix + " "; // Set prefix based on lang
-        errorDisplay.textContent = "";
-        errorDisplay.style.display = "none";
+        const currentLang = getCurrentLang(); const currentTexts = texts[currentLang];
+        resultDisplay.textContent = currentTexts.resultPrefix + " ";
+        errorDisplay.textContent = ""; errorDisplay.style.display = "none";
     }
-
-    // Now accepts an error key to look up the message
     function displayError(errorKey) {
-        const currentLang = getCurrentLang();
-        const currentTexts = texts[currentLang];
-        const message = currentTexts[errorKey] || currentTexts.errorUnknown; // Fallback message
-
-        errorDisplay.textContent = message;
-        errorDisplay.style.display = "block";
-        resultDisplay.textContent = currentTexts.resultPrefix + " "; // Clear result text, keep prefix
+        const currentLang = getCurrentLang(); const currentTexts = texts[currentLang];
+        const message = currentTexts[errorKey] || currentTexts.errorUnknown;
+        errorDisplay.textContent = message; errorDisplay.style.display = "block";
+        resultDisplay.textContent = currentTexts.resultPrefix + " ";
     }
 
     // --- Core Functions ---
-
-    // Update UI Text based on language
     function updateTexts(lang) {
-        lang = texts[lang] ? lang : 'en'; // Validate lang, default to 'en'
-        htmlTag.lang = lang;
+        lang = texts[lang] ? lang : 'en'; htmlTag.lang = lang;
         const currentTexts = texts[lang];
 
         // Update static text elements
-        pageTitle.textContent = currentTexts.title;
-        document.title = currentTexts.title; // Update browser tab title
-        backButton.textContent = currentTexts.backButton;
-        labelCategory.textContent = currentTexts.labelCategory;
-        labelValue.textContent = currentTexts.labelValue;
-        labelFrom.textContent = currentTexts.labelFrom;
-        labelTo.textContent = currentTexts.labelTo;
-        valueInput.placeholder = currentTexts.placeholderValue;
-        convertButton.textContent = currentTexts.convertButtonText;
-        if (themeLabel) {
-            themeLabel.textContent = currentTexts.themeLabel;
-        }
+        // Vérifie bien que tous ces éléments existent et ont les bons IDs dans ton HTML
+        if (pageTitle) pageTitle.textContent = currentTexts.title;
+        document.title = currentTexts.title;
+        if (backButton) backButton.textContent = currentTexts.backButton;
+        if (labelCategory) labelCategory.textContent = currentTexts.labelCategory;
+        if (labelValue) labelValue.textContent = currentTexts.labelValue;
+        if (labelFrom) labelFrom.textContent = currentTexts.labelFrom;
+        if (labelTo) labelTo.textContent = currentTexts.labelTo;
+        if (valueInput) valueInput.placeholder = currentTexts.placeholderValue;
+        if (convertButton) convertButton.textContent = currentTexts.convertButtonText;
+        if (themeLabel) themeLabel.textContent = currentTexts.themeLabel;
 
         // Update language button states
-        btnFr.classList.toggle('active', lang === 'fr');
-        btnEn.classList.toggle('active', lang === 'en');
-        btnFr.setAttribute('aria-pressed', lang === 'fr');
-        btnEn.setAttribute('aria-pressed', lang === 'en');
+        if (btnFr) { btnFr.classList.toggle('active', lang === 'fr'); btnFr.setAttribute('aria-pressed', lang === 'fr'); }
+        if (btnEn) { btnEn.classList.toggle('active', lang === 'en'); btnEn.setAttribute('aria-pressed', lang === 'en'); }
 
-        // Update units (dropdowns) - This implicitly clears results/errors
-        updateUnits(); // Call this to reset state and dropdowns
+        // Update units dropdowns (which also clears results/errors with correct prefix)
+        updateUnits();
     }
 
-
-    // Populate unit dropdowns based on category
     function updateUnits() {
         const category = categorySelect.value;
-
-        // Clear previous options and results/errors
-        fromUnitSelect.innerHTML = "";
-        toUnitSelect.innerHTML = "";
-        clearResultAndError(); // Ensures result prefix is updated too
+        fromUnitSelect.innerHTML = ""; toUnitSelect.innerHTML = "";
+        clearResultAndError(); // Important: Clears results/errors using current language prefix
 
         let unitList;
-        if (category === "temperature") {
-            unitList = conversions.temperature.units;
-        } else if (conversions[category] && conversions[category].units) {
-            unitList = Object.keys(conversions[category].units);
-        } else {
-            console.error("Invalid category selected or category data missing:", category);
-            displayError("errorConfig"); // Use error key
-            return;
-        }
+        if (category === "temperature") { unitList = conversions.temperature.units; }
+        else if (conversions[category] && conversions[category].units) { unitList = Object.keys(conversions[category].units); }
+        else { console.error("Invalid category:", category); displayError("errorConfig"); return; }
 
-        // Populate dropdowns (Using unit keys directly as text - assumes no translation needed for unit names)
-        unitList.forEach(unit => {
-            const optionFrom = document.createElement("option");
-            optionFrom.value = unit;
-            optionFrom.textContent = unit;
-            fromUnitSelect.appendChild(optionFrom);
-
-            const optionTo = document.createElement("option");
-            optionTo.value = unit;
-            optionTo.textContent = unit;
-            toUnitSelect.appendChild(optionTo);
+        unitList.forEach(unit => { // Populate dropdowns
+            const optionFrom = document.createElement("option"); optionFrom.value = unit; optionFrom.textContent = unit; fromUnitSelect.appendChild(optionFrom);
+            const optionTo = document.createElement("option"); optionTo.value = unit; optionTo.textContent = unit; toUnitSelect.appendChild(optionTo);
         });
+        if (fromUnitSelect.options.length > 1) { toUnitSelect.selectedIndex = Math.min(1, fromUnitSelect.options.length - 1); }
+    }
 
-        // Select different default units for better UX
-        if (fromUnitSelect.options.length > 1) {
-            toUnitSelect.selectedIndex = Math.min(1, fromUnitSelect.options.length - 1); // Ensure index is valid
+    function performConversion() {
+        const currentLang = getCurrentLang(); const currentTexts = texts[currentLang];
+        clearResultAndError(); // Start fresh with correct prefix
+
+        const category = categorySelect.value; const valueStr = valueInput.value.trim();
+        const fromUnit = fromUnitSelect.value; const toUnit = toUnitSelect.value;
+        let result;
+
+        if (valueStr === "") return; // Exit if no value
+        const value = parseFloat(valueStr);
+        if (isNaN(value)) { displayError("errorValue"); return; }
+        if (!fromUnit || !toUnit) { displayError("errorUnits"); return; } // Should not happen if updateUnits works
+
+        try { // Perform conversion based on category
+            if (category === "temperature") { result = conversions.temperature.convert(value, fromUnit, toUnit); }
+            else if (conversions[category]?.units && conversions[category]?.base) { // Optional chaining for safety
+                const categoryData = conversions[category];
+                const fromFactor = categoryData.units[fromUnit]; const toFactor = categoryData.units[toUnit];
+                if (typeof fromFactor === 'undefined' || typeof toFactor === 'undefined') throw new Error("errorFactors");
+                const baseValue = fromFactor === 0 ? 0 : value / fromFactor; result = baseValue * toFactor;
+            } else { throw new Error("errorLogic"); }
+            if (isNaN(result)) throw new Error("errorResult"); // Check result validity
+
+            // Format and display
+            const precision = (Math.abs(result) > 0.0001 || result === 0) ? 6 : 10;
+            const formattedResult = Number(result.toFixed(precision));
+            resultDisplay.textContent = `${currentTexts.resultPrefix} ${value} ${fromUnit} = ${formattedResult} ${toUnit}`;
+        } catch (error) {
+            console.error("Conversion Error:", error);
+            const errorKey = error instanceof Error ? error.message : "errorUnknown";
+            displayError(errorKey.includes("error") ? errorKey : "errorUnknown"); // Ensure we pass a valid key
         }
     }
 
-
-    // Perform the actual unit conversion
-    function performConversion() {
-        const currentLang = getCurrentLang();
-        const currentTexts = texts[currentLang];
-        clearResultAndError(); // Clear previous state first, set correct prefix
-
-        const category = categorySelect.value;
-        const valueStr = valueInput.value.trim();
-        const fromUnit = fromUnitSelect.value;
-        const toUnit = toUnitSelect.value;
-        let result;
-
-        // Validate input value
-        if (valueStr === "") {
-             // Don't show error if empty, just keep the default result prefix
-             return;
-        }
-
-        const value = parseFloat(valueStr);
-        if (isNaN(value)) {
-            displayError("errorValue"); // Use error key
-            return;
-        }
-
-         // Check if units are selected
-         if (!fromUnit || !toUnit) {
-             displayError("errorUnits"); // Use error key
-             return;
-         }
-
-        try {
-            if (category === "temperature") {
-                result = conversions.temperature.convert(value, fromUnit, toUnit);
-            } else if (conversions[category] && conversions[category].units && conversions[category].base) {
-                // Linear conversions
-                const categoryData = conversions[category];
-                const fromFactor = categoryData.units[fromUnit];
-                const toFactor = categoryData.units[toUnit];
-
-                if (typeof fromFactor === 'undefined' || typeof toFactor === 'undefined') {
-                   throw new Error("errorFactors"); // Throw error key
-                }
-                const baseValue = fromFactor === 0 ? 0 : value / fromFactor; // Avoid division by zero
-                result = baseValue * toFactor;
-            } else {
-                throw new Error("errorLogic"); // Throw error key
-            }
-
-            // Check for valid result after conversion
-            if (isNaN(result)) {
-                 throw new Error("errorResult"); // Throw error key
-            }
-
-            // Format and display result
-            const precision = (Math.abs(result) > 0.0001 || result === 0) ? 6 : 10;
-            const formattedResult = Number(result.toFixed(precision));
-
-            // Use translated prefix
-            resultDisplay.textContent = `${currentTexts.resultPrefix} ${value} ${fromUnit} = ${formattedResult} ${toUnit}`;
-
-        } catch (error) {
-            console.error("Conversion Error:", error);
-            // Display error using the key from the caught error or a default key
-            const errorKey = error instanceof Error ? error.message : "errorUnknown";
-            displayError(errorKey);
-        }
-    } // --- End of performConversion ---
-
     // --- Event Listeners ---
-    categorySelect.addEventListener("change", updateUnits); // Update units when category changes
-    convertButton.addEventListener("click", performConversion); // Convert on button click
-    btnFr.addEventListener('click', () => updateTexts('fr')); // Language buttons
+    categorySelect.addEventListener("change", updateUnits);
+    convertButton.addEventListener("click", performConversion);
+    btnFr.addEventListener('click', () => updateTexts('fr'));
     btnEn.addEventListener('click', () => updateTexts('en'));
-
-    // Optional: Convert on Enter key press in the value input field
-    valueInput.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            performConversion();
-        }
-    });
+    valueInput.addEventListener("keypress", (event) => { if (event.key === "Enter") { event.preventDefault(); performConversion(); } });
 
     // --- Initial Setup ---
-    // Get initial language (Stored > Browser > Default 'en')
     const initialLang = localStorage.getItem('unitConverterLang') || navigator.language.split('-')[0] || 'en';
-    updateTexts(initialLang); // Initial UI setup based on language
+    updateTexts(initialLang);
 
-    // Optional: Save language preference on change
-    btnFr.addEventListener('click', () => localStorage.setItem('unitConverterLang', 'en')); // Should be 'fr'
+    // Save language preference - *** CORRECTION ICI ***
+    btnFr.addEventListener('click', () => localStorage.setItem('unitConverterLang', 'fr')); // Doit être 'fr'
     btnEn.addEventListener('click', () => localStorage.setItem('unitConverterLang', 'en'));
 
-
-}); // --- End of DOMContentLoaded ---
+});
 // --- END OF FILE unitconverter_script.js ---
