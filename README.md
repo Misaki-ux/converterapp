@@ -80,6 +80,7 @@ That's it! You can now use the tools directly from your local files.
 
 3.  Click on the card for the tool you want to use ("Screen Size Converter" or "Unit Converter").
 4.  **For Screen Size Converter:**
+   
    ![image](https://github.com/user-attachments/assets/dd30d592-800f-4e12-80c4-8dcf489c929f)
 
     *   Enter the Width (L/W) and Height (H) in centimeters.
@@ -88,7 +89,8 @@ That's it! You can now use the tools directly from your local files.
     *   Use the language buttons (Fr/En) at the top to switch languages.
     *   Use the "Copy" buttons next to results to copy them to your clipboard.
     *   Use the "Reset" button to clear all inputs.
-6.  **For Unit Converter (WIP) :**
+5.  **For Unit Converter (WIP) :**
+   
    ![image](https://github.com/user-attachments/assets/56de7825-9158-4bdb-8a44-09a8fe0077e7)
 
 
@@ -97,9 +99,9 @@ That's it! You can now use the tools directly from your local files.
     *   Select the `From` unit and the `To` unit using the dropdowns.
     *   Click the `Convert` button.
     *   The result will be displayed below.
-    *   
-8.  **For Cross-multiplication:**
-9.  Enter values in 3 fields, wait for D to be calculated:
+       
+7.  **For Cross-multiplication:**
+ Enter values in 3 fields, wait for D to be calculated:
     
 ![image](https://github.com/user-attachments/assets/a726c9e4-1baf-4200-858e-50e994d8cc01)
 
