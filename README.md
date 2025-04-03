@@ -102,9 +102,8 @@ That's it! You can now use the tools directly from your local files.
 ![image](https://github.com/user-attachments/assets/a726c9e4-1baf-4200-858e-50e994d8cc01)
 
 10.  **Theme Toggle:** Use the sun/moon toggle switch (usually in a corner) on any page to switch between light and dark modes. Your preference is saved locally.
+![image](https://github.com/user-attachments/assets/48afdc98-ec65-401b-be83-e31419d55fe0)
 
-
-https://github.com/user-attachments/assets/548ecdbd-efd3-4874-9d9a-ba97a160380a
 
 
 ---
