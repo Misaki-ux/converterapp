@@ -91,6 +91,7 @@ That's it! You can now use the tools directly from your local files.
 6.  **For Unit Converter (WIP) :**
    ![image](https://github.com/user-attachments/assets/56de7825-9158-4bdb-8a44-09a8fe0077e7)
 
+
     *   Select the measurement `Category` (e.g., Length).
     *   Enter the `Value` you want to convert.
     *   Select the `From` unit and the `To` unit using the dropdowns.
@@ -99,10 +100,12 @@ That's it! You can now use the tools directly from your local files.
     *   
 8.  **For Cross-multiplication:**
 9.  Enter values in 3 fields, wait for D to be calculated:
+    
 ![image](https://github.com/user-attachments/assets/a726c9e4-1baf-4200-858e-50e994d8cc01)
 
-10.  **Theme Toggle:** Use the sun/moon toggle switch (usually in a corner) on any page to switch between light and dark modes. Your preference is saved locally.
-![image](https://github.com/user-attachments/assets/48afdc98-ec65-401b-be83-e31419d55fe0)
+11.  **Theme Toggle:** Use the sun/moon toggle switch (usually in a corner) on any page to switch between light and dark modes. Your preference is saved locally.
+
+![ezgif-22ad61c2d9cb80](https://github.com/user-attachments/assets/2deb0f9e-6fd7-4a03-a09e-42bed3ff2e7a)
 
 
 
