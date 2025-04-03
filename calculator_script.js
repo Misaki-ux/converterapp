@@ -1,217 +1,252 @@
-// calculator_script.js (Refonte pour Solve-For-Any)
+// --- START OF FILE calculator_script.js ---
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- Elements ---
-    const inputs = {
-        A: document.getElementById('inputA'),
-        B: document.getElementById('inputB'),
-        C: document.getElementById('inputC'),
-        D: document.getElementById('inputD')
-    };
-    const inputItems = { // Conteneurs pour styling '.calculated'
-        A: inputs.A.closest('.input-item'),
-        B: inputs.B.closest('.input-item'),
-        C: inputs.C.closest('.input-item'),
-        D: inputs.D.closest('.input-item')
-    };
-    const calculateButton = document.getElementById('calculateButton');
-    const resetButton = document.getElementById('resetButtonCalculator');
-    const errorMessageDiv = document.getElementById('error-message-calculator');
-    // const resultOutput = document.getElementById('resultOutput'); // Optionnel si gardé
-    // const copyButton = document.getElementById('copyButtonCalculator'); // Optionnel si gardé
+    const htmlTag = document.documentElement;
+    const inputA = document.getElementById('inputA');
+    const inputB = document.getElementById('inputB');
+    const inputC = document.getElementById('inputC');
+    const inputD = document.getElementById('inputD');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const errorDiv = document.getElementById('errorDiv');
+    const inputs = [inputA, inputB, inputC, inputD]; // Array for easy iteration
 
-    // Language Elements
+    // Language / Text Elements
     const pageTitle = document.getElementById('page-title');
     const backButton = document.getElementById('back-to-home');
     const introText = document.getElementById('intro-text');
-    // const resultLabel = document.getElementById('result-label'); // Optionnel si gardé
     const btnFr = document.getElementById('lang-fr');
     const btnEn = document.getElementById('lang-en');
-    const htmlTag = document.documentElement;
+    const themeLabel = document.getElementById('theme-label');
 
-    // --- Texts ---
+    // --- Language Data --- (COMPLÉTEZ SI NÉCESSAIRE)
     const texts = {
         fr: {
-            title: "Calculateur (A × B) / C = D",
-            intro: "Remplissez exactement trois des quatre champs. Le champ laissé vide sera calculé automatiquement lorsque vous cliquerez sur \"Calculer\".",
-            placeholderA: "Valeur A",
-            placeholderB: "Valeur B",
-            placeholderC: "Valeur C",
-            placeholderD: "Valeur D",
-            // resultLabel: "Résultat Calculé :", // Si boîte résultat gardée
-            backButton: "← Retour à l'accueil",
+            title: "Calculateur Produit en Croix",
+            backButton: "← Retour aux Outils",
+            introText: "Entrez trois valeurs pour calculer la quatrième (A / B = C / D).",
             calculateButton: "Calculer",
             resetButton: "Effacer",
-            // copyButton: "Copier",
-            // copiedButton: "Copié !",
-            errorResult: "Erreur",
-            errorDivZero: "Erreur : Division par zéro lors du calcul.",
-            errorInvalidInput: "Veuillez entrer des nombres valides dans les champs remplis.",
-            errorInputCount: "Veuillez remplir exactement trois champs.",
-            errorCannotCalculate: "Impossible de calculer avec les valeurs fournies."
+            themeLabel: "Mode Sombre",
+            errorThreeFields: "Veuillez remplir exactement trois champs pour un calcul initial.",
+            errorFourFieldsInfo: "Quatre champs remplis. Recalcul de D effectué.", // Message informatif si 4 champs
+            errorInvalidNumber: "Veuillez entrer des nombres valides dans les champs remplis.",
+            errorDivisionByZero: "Division par zéro impossible.",
+            errorGeneral: "Erreur de calcul."
         },
         en: {
-            title: "Calculator (A × B) / C = D",
-            intro: "Fill in exactly three of the four fields. The empty field will be calculated automatically when you click \"Calculate\".",
-            placeholderA: "Value A",
-            placeholderB: "Value B",
-            placeholderC: "Value C",
-            placeholderD: "Value D",
-            // resultLabel: "Calculated Result:", // If result box kept
-            backButton: "← Back to Home",
+            title: "Cross-Multiplication Calculator",
+            backButton: "← Back to Tools",
+            introText: "Enter three values to calculate the fourth (A / B = C / D).",
             calculateButton: "Calculate",
             resetButton: "Reset",
-            // copyButton: "Copy",
-            // copiedButton: "Copied!",
-            errorResult: "Error",
-            errorDivZero: "Error: Division by zero during calculation.",
-            errorInvalidInput: "Please enter valid numbers in the filled fields.",
-            errorInputCount: "Please fill in exactly three fields.",
-            errorCannotCalculate: "Cannot calculate with the provided values."
+            themeLabel: "Dark Mode",
+            errorThreeFields: "Please fill exactly three fields for an initial calculation.",
+            errorFourFieldsInfo: "Four fields filled. Recalculated D.", // Info message if 4 fields
+            errorInvalidNumber: "Please enter valid numbers in the filled fields.",
+            errorDivisionByZero: "Division by zero is not possible.",
+            errorGeneral: "Calculation error."
         }
     };
 
-    // --- Functions ---
+    // --- Helper Functions ---
+    function getCurrentLang() { return htmlTag.lang || 'fr'; } // Default fr
+
+    function displayError(key, isInfo = false) {
+        const lang = getCurrentLang();
+        const message = texts[lang][key] || texts[lang].errorGeneral;
+        errorDiv.textContent = message;
+        // Change style based on whether it's an error or just info
+        errorDiv.style.backgroundColor = isInfo ? 'var(--result-bg, #e9f5ff)' : 'var(--error-bg, #f8d7da)';
+        errorDiv.style.color = isInfo ? 'var(--result-value-color, #0056b3)' : 'var(--error-text, #721c24)';
+        errorDiv.style.borderColor = isInfo ? 'var(--result-border, #bde0ff)' : 'var(--error-border, #f5c6cb)';
+        errorDiv.style.display = 'block';
+    }
+
+    function clearError() {
+        errorDiv.textContent = '';
+        errorDiv.style.display = 'none';
+    }
+
+     function clearInputs() {
+        inputs.forEach(input => {
+            if(input) input.value = '';
+            // Remove styling indicating calculated field if any
+             if(input) input.closest('.input-item')?.classList.remove('calculated');
+        });
+        clearError();
+    }
+
+    // Format number or return empty string
+    function formatResult(num) {
+         if (isNaN(num) || !isFinite(num)) {
+             return ''; // Return empty if result is invalid
+         }
+         // Simple formatting, adjust decimals as needed
+         return parseFloat(num.toFixed(6)); // Use Number() to remove trailing zeros if needed: Number(num.toFixed(6))
+    }
+
+
+    // --- Core Functions ---
     function updateTexts(lang) {
-        htmlTag.lang = lang;
+        lang = texts[lang] ? lang : 'fr'; htmlTag.lang = lang;
         const currentTexts = texts[lang];
 
-        pageTitle.textContent = currentTexts.title;
-        backButton.textContent = currentTexts.backButton;
-        introText.textContent = currentTexts.intro;
-        inputs.A.placeholder = currentTexts.placeholderA;
-        inputs.B.placeholder = currentTexts.placeholderB;
-        inputs.C.placeholder = currentTexts.placeholderC;
-        inputs.D.placeholder = currentTexts.placeholderD;
-        // if (resultLabel) resultLabel.textContent = currentTexts.resultLabel;
+        if (pageTitle) pageTitle.textContent = currentTexts.title;
+        document.title = currentTexts.title;
+        if (backButton) backButton.textContent = currentTexts.backButton;
+        if (introText) introText.textContent = currentTexts.introText;
+        if (calculateBtn) calculateBtn.textContent = currentTexts.calculateButton;
+        if (resetBtn) resetBtn.textContent = currentTexts.resetButton;
+        if (themeLabel) themeLabel.textContent = currentTexts.themeLabel;
+        // Placeholder text could also be added here if needed
 
-        calculateButton.textContent = currentTexts.calculateButton;
-        resetButton.textContent = currentTexts.resetButton;
-        // if (copyButton) copyButton.textContent = currentTexts.copyButton;
+        if (btnFr) { btnFr.classList.toggle('active', lang === 'fr'); btnFr.setAttribute('aria-pressed', lang === 'fr'); }
+        if (btnEn) { btnEn.classList.toggle('active', lang === 'en'); btnEn.setAttribute('aria-pressed', lang === 'en'); }
 
-        // ARIA for lang buttons
-        btnFr.setAttribute('aria-pressed', lang === 'fr');
-        btnEn.setAttribute('aria-pressed', lang === 'en');
-        btnFr.classList.toggle('active', lang === 'fr');
-        btnEn.classList.toggle('active', lang === 'en');
-
-        // Clear previous results/errors on lang change
-        resetCalculationState();
+        // Recalculate or clear error to show translated message if error was present
+        if (errorDiv.style.display === 'block') {
+             // We don't know which error was shown, so maybe just clear it on lang change?
+             // Or try to recalculate? Clearing is safer.
+             clearError();
+        }
     }
 
-    function resetCalculationState() {
-        errorMessageDiv.style.display = 'none';
-        // if (resultOutput) resultOutput.textContent = '--';
-        // if (copyButton) copyButton.disabled = true;
-        // Clear calculated style and values from inputs
-        Object.values(inputs).forEach(input => {
-            // input.value = ''; // Ne pas effacer à chaque recalcul, seulement au reset
-            input.closest('.input-item').classList.remove('calculated');
-        });
-    }
+    function calculate() {
+        clearError();
+        // Remove previous 'calculated' styling
+        inputs.forEach(input => input?.closest('.input-item')?.classList.remove('calculated'));
 
-    function performCalculation() {
-        resetCalculationState(); // Clear previous state first
-        const currentLang = htmlTag.lang || 'fr';
-        let emptyFieldKey = null;
-        let filledValues = {};
-        let emptyCount = 0;
-        let hasInvalidInput = false;
 
-        // 1. Find empty field, get filled values, validate numbers
-        for (const key in inputs) {
-            const inputElement = inputs[key];
-            const valueStr = inputElement.value.trim();
-            if (valueStr === '') {
-                emptyCount++;
-                emptyFieldKey = key;
-            } else {
-                const valueNum = parseFloat(valueStr);
-                if (isNaN(valueNum)) {
-                    hasInvalidInput = true;
+        const values = {
+            A: inputA ? parseFloat(inputA.value) : NaN,
+            B: inputB ? parseFloat(inputB.value) : NaN,
+            C: inputC ? parseFloat(inputC.value) : NaN,
+            D: inputD ? parseFloat(inputD.value) : NaN
+        };
+
+        const filledValues = Object.entries(values).filter(([key, val]) => !isNaN(val));
+        const emptyKeys = Object.entries(values).filter(([key, val]) => isNaN(val)).map(([key]) => key);
+
+        const filledCount = filledValues.length;
+
+        let targetKey = null;
+        let result = NaN;
+
+        // --- CASE 1: Exactly 3 fields filled ---
+        if (filledCount === 3 && emptyKeys.length === 1) {
+            targetKey = emptyKeys[0];
+            const [val1, val2, val3] = filledValues.map(entry => entry[1]); // Get the 3 valid numbers
+            const keys = filledValues.map(entry => entry[0]); // Get the keys of the valid numbers
+
+            try {
+                switch (targetKey) {
+                    case 'A': // Need B, C, D
+                        if (values.D === 0) throw new Error("errorDivisionByZero");
+                        result = (values.B * values.C) / values.D;
+                        break;
+                    case 'B': // Need A, C, D
+                        if (values.C === 0) throw new Error("errorDivisionByZero");
+                        result = (values.A * values.D) / values.C;
+                        break;
+                    case 'C': // Need A, B, D
+                        if (values.B === 0) throw new Error("errorDivisionByZero");
+                        result = (values.A * values.D) / values.B;
+                        break;
+                    case 'D': // Need A, B, C
+                        if (values.A === 0) throw new Error("errorDivisionByZero");
+                        result = (values.B * values.C) / values.A;
+                        break;
                 }
-                filledValues[key] = valueNum; // Store parsed number or NaN
-            }
-        }
-
-        // 2. Validate input count and values
-        if (emptyCount !== 1) {
-            showError(texts[currentLang].errorInputCount);
-            return;
-        }
-        if (hasInvalidInput) {
-            showError(texts[currentLang].errorInvalidInput);
-            return;
-        }
-
-        // 3. Perform calculation based on the empty field
-        let result = null;
-        const { A, B, C, D } = filledValues; // Destructure values (some will be undefined)
-
-        try {
-            if (emptyFieldKey === 'D') { // Solve for D = (A * B) / C
-                if (C === 0) throw new Error(texts[currentLang].errorDivZero);
-                result = (A * B) / C;
-            } else if (emptyFieldKey === 'C') { // Solve for C = (A * B) / D
-                if (D === 0) throw new Error(texts[currentLang].errorDivZero);
-                result = (A * B) / D;
-            } else if (emptyFieldKey === 'B') { // Solve for B = (C * D) / A
-                if (A === 0) throw new Error(texts[currentLang].errorDivZero);
-                result = (C * D) / A;
-            } else if (emptyFieldKey === 'A') { // Solve for A = (C * D) / B
-                if (B === 0) throw new Error(texts[currentLang].errorDivZero);
-                result = (C * D) / B;
+            } catch (e) {
+                displayError(e.message);
+                return;
             }
 
-            // 4. Validate result and display
-            if (result === null || !isFinite(result)) {
-                 throw new Error(texts[currentLang].errorCannotCalculate);
-            }
+        // --- CASE 2: Exactly 4 fields filled (Recalculate D by default) ---
+        } else if (filledCount === 4) {
+            targetKey = 'D'; // Assume we recalculate D
+            // Verify other numbers are valid (already done by filledCount check)
+             if (values.A === 0) {
+                 displayError("errorDivisionByZero");
+                 return;
+             }
+            result = (values.B * values.C) / values.A;
+            displayError("errorFourFieldsInfo", true); // Show info message
 
-            const formattedResult = Number.isInteger(result) ? result : result.toFixed(4); // Or adjust precision
-            inputs[emptyFieldKey].value = formattedResult;
-            inputItems[emptyFieldKey].classList.add('calculated'); // Highlight calculated field
-
-            // Update optional result box if kept
-            // if(resultOutput) resultOutput.textContent = formattedResult;
-            // if(copyButton) copyButton.disabled = false;
-
-        } catch (error) {
-            showError(error.message);
+        // --- CASE 3: Invalid number of fields or other issues ---
+        } else {
+             // Check if any field has non-numeric input when it's not empty
+             const invalidInput = inputs.some(input => input && input.value.trim() !== '' && isNaN(parseFloat(input.value)));
+             if (invalidInput) {
+                 displayError("errorInvalidNumber");
+             } else if (filledCount < 3) {
+                displayError("errorThreeFields"); // Changed error message
+             } else {
+                 // This case might occur if somehow > 4 fields or unexpected NaN state
+                 displayError("errorGeneral");
+             }
+            return; // Stop calculation
         }
-    }
 
-    function showError(message) {
-        errorMessageDiv.textContent = message;
-        errorMessageDiv.style.display = 'block';
-        // if (resultOutput) resultOutput.textContent = texts[htmlTag.lang || 'fr'].errorResult;
-        // if (copyButton) copyButton.disabled = true;
+        // --- Display result ---
+        if (targetKey && !isNaN(result) && isFinite(result)) {
+            const targetInput = document.getElementById(`input${targetKey}`);
+            if (targetInput) {
+                targetInput.value = formatResult(result);
+                // Add styling to indicate this field was calculated
+                 targetInput.closest('.input-item')?.classList.add('calculated');
+            }
+        } else if (isNaN(result) || !isFinite(result)) {
+             // Handle cases where calculation resulted in NaN or Infinity, beyond division by zero
+             displayError("errorGeneral"); // Or a more specific error if possible
+        }
+
+         // Highlight the calculated field (optional styling)
+         const targetElement = document.getElementById(`input${targetKey}`);
+         if (targetElement) {
+             targetElement.closest('.input-item')?.classList.add('calculated');
+             // Optional: Briefly flash background or border
+             targetElement.style.transition = 'none'; // Disable transition for immediate effect
+             targetElement.style.backgroundColor = 'var(--accent-color-darker, yellow)'; // Temporary highlight
+             setTimeout(() => {
+                 targetElement.style.transition = 'background-color 0.5s ease'; // Re-enable transition
+                 targetElement.style.backgroundColor = ''; // Reset background
+                 targetElement.closest('.input-item')?.classList.add('calculated'); // Ensure class stays
+             }, 300);
+         }
+
     }
 
 
     // --- Event Listeners ---
-    calculateButton.addEventListener('click', performCalculation);
-
-    resetButton.addEventListener('click', () => {
-        Object.values(inputs).forEach(input => { input.value = ''; });
-        resetCalculationState();
-    });
+    if (calculateBtn) calculateBtn.addEventListener('click', calculate);
+    if (resetBtn) resetBtn.addEventListener('click', clearInputs);
+    if (btnFr) btnFr.addEventListener('click', () => updateTexts('fr'));
+    if (btnEn) btnEn.addEventListener('click', () => updateTexts('en'));
 
     // Optional: Recalculate on Enter key press in any input field
-    Object.values(inputs).forEach(input => {
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault(); // Prevent form submission if inside a form
-                performCalculation();
-            }
-        });
+    inputs.forEach(input => {
+        if (input) {
+            input.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // Prevent form submission if applicable
+                    calculate();
+                }
+            });
+        }
     });
 
-    btnFr.addEventListener('click', () => updateTexts('fr'));
-    btnEn.addEventListener('click', () => updateTexts('en'));
 
     // --- Initial Setup ---
-    updateTexts('fr');
-    resetCalculationState(); // Ensure clean state on load
+    const initialLang = localStorage.getItem('calculatorLang') || navigator.language.split('-')[0] || 'fr';
+    updateTexts(initialLang);
 
-});
+    // Save language preference
+    if (btnFr) btnFr.addEventListener('click', () => localStorage.setItem('calculatorLang', 'fr'));
+    if (btnEn) btnEn.addEventListener('click', () => localStorage.setItem('calculatorLang', 'en'));
+
+
+}); // --- End of DOMContentLoaded ---
+// --- END OF FILE calculator_script.js ---
